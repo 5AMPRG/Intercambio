@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Intercambio CETIS 69</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a1c17;--bg2:#10291f;--cream:#f3ead7;--muted:#a9b8ac;--gold:#d8b46a;--wine:#9b3340;--ok:#7fd1ae;--err:#ff8a8a;
+--glass:rgba(255,255,255,.06);--line:rgba(243,234,215,.16);--serif:"Fraunces",Georgia,serif;--sans:"Inter",system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);color:var(--cream);min-height:100vh;padding:env(safe-area-inset-top) 0 calc(60px + env(safe-area-inset-bottom));
+background:radial-gradient(60% 40% at 15% 0,rgba(155,51,64,.28),transparent 70%),radial-gradient(60% 50% at 90% 10%,rgba(216,180,106,.12),transparent 70%),linear-gradient(180deg,var(--bg2),var(--bg) 60%);background-attachment:fixed}
+.ic{width:1.15em;height:1.15em;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto;vertical-align:-.2em}
+#snow{position:fixed;inset:0;pointer-events:none;z-index:0}
+header,nav,main{position:relative;z-index:1}
+header{text-align:center;padding:54px 18px 10px;animation:rise 1s both}
+.mark{display:inline-grid;place-items:center;width:54px;height:54px;border-radius:50%;border:1px solid var(--gold);color:var(--gold);margin-bottom:18px;background:var(--glass);backdrop-filter:blur(10px)}
+.mark .ic{width:26px;height:26px}
+h1{font-family:var(--serif);font-weight:400;font-size:clamp(2.3rem,8vw,4.2rem);line-height:1.05;letter-spacing:-.5px}
+h1 em{color:var(--gold);font-style:italic}
+header p{color:var(--muted);margin:14px auto 0;max-width:46ch;line-height:1.6}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:20px}
+.chip{display:inline-flex;gap:8px;align-items:center;padding:8px 14px;border-radius:999px;font-size:.85rem;background:var(--glass);border:1px solid var(--line);backdrop-filter:blur(10px)}
+.chip .ic{color:var(--gold)}
+.chip.ok{color:var(--ok)}.chip.warn{color:var(--gold)}.chip.done{color:#f1b3ba}
+nav{position:sticky;top:calc(10px + env(safe-area-inset-top));z-index:20;display:flex;gap:4px;justify-content:center;width:max-content;max-width:calc(100% - 20px);margin:22px auto;padding:6px;border-radius:999px;background:rgba(10,28,23,.55);border:1px solid var(--line);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);overflow-x:auto;animation:rise .9s .2s both}
+nav button{display:flex;gap:8px;align-items:center;background:none;border:0;color:var(--muted);padding:10px 16px;border-radius:999px;font:500 .9rem var(--sans);cursor:pointer;transition:.3s;white-space:nowrap}
+nav button:hover{color:var(--cream)}
+nav button.active{background:var(--cream);color:var(--bg)}
+nav button:focus-visible,.btn:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+main{max-width:920px;margin:0 auto;padding:0 14px}
+section{display:none}
+section.active{display:block}
+section.active>*{animation:rise .7s both;animation-delay:calc(var(--i,0)*90ms)}
+@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:scale(.94) translateY(10px)}to{opacity:1;transform:none}}
+.glass{background:var(--glass);border:1px solid var(--line);border-radius:24px;padding:26px;margin-bottom:16px;backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);box-shadow:0 20px 50px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.08)}
+h2{font-family:var(--serif);font-weight:400;font-size:1.7rem;margin-bottom:6px}
+h3{font-family:var(--serif);font-weight:400;font-size:1.4rem;margin-bottom:8px}
+.sub{color:var(--muted);font-size:.93rem;line-height:1.6;margin-bottom:12px}
+label{display:block;font-size:.85rem;color:var(--muted);margin:16px 0 7px}
+input,select,textarea{width:100%;padding:13px 15px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.05);color:var(--cream);font:1rem var(--sans);transition:.25s}
+input:focus,textarea:focus,select:focus{border-color:var(--gold);background:rgba(255,255,255,.09)}
+textarea{resize:vertical;min-height:80px}
+.field{position:relative}
+.field .ic{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted)}
+.field input{padding-left:42px}
+.check{display:flex;gap:10px;align-items:flex-start;margin-top:18px;font-size:.92rem;color:var(--cream)}
+.check input{width:20px;height:20px;margin-top:1px;accent-color:var(--gold)}
+.btn{display:inline-flex;gap:9px;align-items:center;justify-content:center;margin-top:20px;width:100%;padding:14px 18px;border:0;border-radius:14px;cursor:pointer;font:600 1rem var(--sans);color:var(--cream);background:linear-gradient(135deg,#b3414f,var(--wine));box-shadow:0 8px 24px rgba(155,51,64,.35);transition:.25s}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.1)}
+.btn:active{transform:scale(.98)}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.btn.gold{background:linear-gradient(135deg,#e6c984,var(--gold));color:#1b1608;box-shadow:0 8px 24px rgba(216,180,106,.25)}
+.btn.ghost{background:var(--glass);border:1px solid var(--line);box-shadow:none}
+.btn.sm{width:auto;margin:0;padding:9px 14px;font-size:.85rem;border-radius:12px}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.row .btn{flex:1;min-width:130px}
+.msg{display:flex;gap:10px;align-items:center;padding:12px 14px;border-radius:14px;margin-top:14px;font-size:.92rem;background:var(--glass);border:1px solid var(--line);color:var(--muted);animation:pop .4s both}
+.msg.err{border-color:var(--err);color:var(--err)}.msg.good{border-color:var(--ok);color:var(--ok)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+.stat{text-align:center;padding:18px 8px}
+.stat b{display:block;font:400 2.2rem var(--serif);color:var(--gold)}
+.stat span{font-size:.8rem;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.person{display:flex;gap:12px;align-items:center;padding:12px;border-radius:16px;border:1px solid var(--line);background:rgba(255,255,255,.04);animation:pop .5s both;animation-delay:calc(var(--i,0)*35ms)}
+.avatar{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font:600 .85rem var(--sans);flex:0 0 40px;background:linear-gradient(135deg,var(--wine),#17483a);border:1px solid var(--line)}
+.person small{display:block;color:var(--muted);font-size:.75rem;margin-top:2px}
+.progress{height:6px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden;margin:14px 0}
+.progress div{height:100%;width:0;background:linear-gradient(90deg,var(--wine),var(--gold));transition:width 1s cubic-bezier(.2,.8,.2,1)}
+.wheel-box{position:relative;width:min(86vw,430px);margin:14px auto}
+.wheel-box canvas{width:100%;height:auto;display:block;filter:drop-shadow(0 18px 30px rgba(0,0,0,.4))}
+.pointer{position:absolute;top:-8px;left:50%;transform:translateX(-50%);border:13px solid transparent;border-top:28px solid var(--cream);border-bottom:0;z-index:2;filter:drop-shadow(0 3px 4px rgba(0,0,0,.5))}
+.hub{position:absolute;top:50%;left:50%;width:58px;height:58px;transform:translate(-50%,-50%);border-radius:50%;background:var(--bg);border:2px solid var(--gold);display:grid;place-items:center;color:var(--gold);z-index:2}
+.reveal{text-align:center;padding:10px 0}
+.reveal .big{font:italic 400 clamp(2rem,8vw,3rem)/1.1 var(--serif);color:var(--gold);margin:10px 0;animation:pop .8s both}
+.tip{display:flex;gap:10px;text-align:left;margin-top:14px;padding:13px 15px;border-radius:14px;border:1px dashed var(--line);color:var(--muted);font-size:.92rem;line-height:1.5}
+.tip .ic{color:var(--gold);margin-top:2px}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.9rem}
+th,td{padding:11px 8px;text-align:left;border-bottom:1px solid var(--line)}
+th{color:var(--muted);font-weight:500;font-size:.82rem}
+.blur{filter:blur(6px);user-select:none}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:4px 14px}
+.empty{text-align:center;color:var(--muted);padding:28px 10px;grid-column:1/-1}
+.ov{position:fixed;inset:0;background:rgba(4,12,9,.72);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;z-index:50;padding:16px;overflow-y:auto}
+.ov.show{display:flex;animation:fade .3s both}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.mcard{max-width:500px;width:100%;margin:auto;text-align:center;animation:pop .45s both;background:rgba(16,41,31,.78)}
+#toast{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom));transform:translate(-50%,140px);z-index:60;display:flex;gap:10px;align-items:center;max-width:90vw;padding:13px 20px;border-radius:16px;background:rgba(16,41,31,.85);border:1px solid var(--gold);backdrop-filter:blur(16px);transition:.45s cubic-bezier(.2,.8,.2,1)}
+#toast.show{transform:translate(-50%,0)}
+#toast .ic{color:var(--gold)}
+@media(max-width:520px){nav button span{display:none}nav button{padding:12px 16px}.glass{padding:20px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-gift" viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7M7.5 8a2.5 2.5 0 0 1 0-5C10 3 12 8 12 8s2-5 4.5-5a2.5 2.5 0 0 1 0 5"/></symbol>
+<symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+<symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2 21a7 7 0 0 1 14 0M16 4.6a3.5 3.5 0 0 1 0 6.8M22 21a7 7 0 0 0-4-6.3"/></symbol>
+<symbol id="i-wheel" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18M5.6 5.6l12.8 12.8M18.4 5.6 5.6 18.4"/></symbol>
+<symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+<symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 16.5v.5"/></symbol>
+<symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></symbol>
+<symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M4 21h16"/></symbol>
+<symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+<symbol id="i-out" viewBox="0 0 24 24"><path d="M9 21H5V3h4M16 17l5-5-5-5M21 12H9"/></symbol>
+<symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.8.8 1 1.5 1 2.5h6c0-1 .2-1.7 1-2.5A6 6 0 0 0 12 3z"/></symbol>
+<symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2 5.5M20 4v7h-7"/></symbol>
+<symbol id="i-snow" viewBox="0 0 24 24"><path d="M12 2v20M4 7l16 10M4 17 20 7M9 3.5l3 2.5 3-2.5M9 20.5l3-2.5 3 2.5"/></symbol>
+<symbol id="i-star" viewBox="0 0 24 24"><path d="m12 3 2.6 5.6 6.1.7-4.5 4.2 1.2 6-5.4-3-5.4 3 1.2-6L3.3 9.3l6.1-.7z"/></symbol>
+<symbol id="i-cal" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol>
+<symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></symbol>
+<symbol id="i-coin" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M14.5 9.5c-.5-1-1.400-1.500-2.500-1.500-1.500 0-2.500.8-2.500 2s1 1.700 2.500 2 2.500.8 2.500 2-1 2-2.500 2c-1.100 0-2-.5-2.500-1.500M12 6.500v1.500M12 16v1.500"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></symbol>
+<symbol id="i-key" viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="m11 12 9-9M16 7l3 3"/></symbol>
+</defs></svg>
+<canvas id="snow"></canvas>
+
+<header>
+  <div class="mark"><svg class="ic"><use href="#i-snow"/></svg></div>
+  <h1>Intercambio <em>CETIS 69</em></h1>
+  <p>Regístrate, espera el sorteo y descubre a quién le regalas. La suerte la decide el sistema.</p>
+  <div class="chips" id="chips"></div>
+</header>
+
+<nav id="tabs">
+  <button data-tab="registro" class="active"><svg class="ic"><use href="#i-user"/></svg><span>Registro</span></button>
+  <button data-tab="mio"><svg class="ic"><use href="#i-gift"/></svg><span>Mi intercambio</span></button>
+  <button data-tab="lista"><svg class="ic"><use href="#i-users"/></svg><span>Participantes</span></button>
+  <button data-tab="sorteo"><svg class="ic"><use href="#i-wheel"/></svg><span>Sorteo</span></button>
+  <button data-tab="admin"><svg class="ic"><use href="#i-lock"/></svg><span>Admin</span></button>
+</nav>
+
+<main>
+  <section id="registro" class="active">
+    <div class="glass" style="--i:0">
+      <h2>Únete al intercambio</h2>
+      <p class="sub">Tu nombre y un PIN de 4 dígitos serán tu acceso para ver a quién te tocó.</p>
+      <label for="regNombre">Nombre completo</label>
+      <div class="field"><svg class="ic"><use href="#i-user"/></svg><input id="regNombre" maxlength="60" placeholder="Ej. María López" autocomplete="off"></div>
+      <label for="regPin">PIN de 4 dígitos</label>
+      <div class="field"><svg class="ic"><use href="#i-key"/></svg><input id="regPin" type="password" inputmode="numeric" maxlength="4" placeholder="••••" autocomplete="off"></div>
+      <label for="regGustos">Ideas de regalo (opcional, solo las verá quien te toque)</label>
+      <textarea id="regGustos" maxlength="200" placeholder="Dulces, color azul, libros..."></textarea>
+      <label class="check"><input id="regAcepto" type="checkbox"><span>Acepto participar y cumplir con mi regalo.</span></label>
+      <button class="btn" id="btnRegistrar"><svg class="ic"><use href="#i-gift"/></svg>Registrarme</button>
+      <div id="regMsg"></div>
+    </div>
+  </section>
+
+  <section id="mio">
+    <div class="glass" id="mioLogin" style="--i:0">
+      <h2>Consulta tu intercambio</h2>
+      <p class="sub">Escribe el nombre con el que te registraste y tu PIN.</p>
+      <label for="mioNombre">Nombre</label>
+      <div class="field"><svg class="ic"><use href="#i-user"/></svg><input id="mioNombre" placeholder="Tu nombre completo" autocomplete="off"></div>
+      <label for="mioPin">PIN</label>
+      <div class="field"><svg class="ic"><use href="#i-key"/></svg><input id="mioPin" type="password" inputmode="numeric" maxlength="4" placeholder="••••"></div>
+      <button class="btn" id="btnEntrar"><svg class="ic"><use href="#i-out"/></svg>Entrar</button>
+      <div id="mioMsg"></div>
+    </div>
+    <div id="mioPanel" style="display:none"></div>
+  </section>
+
+  <section id="lista">
+    <div class="stats" style="--i:0">
+      <div class="glass stat"><b id="stTotal">0</b><span>Registrados</span></div>
+      <div class="glass stat"><b id="stMin">0</b><span>Mínimo para sortear</span></div>
+      <div class="glass stat"><b id="stFalta">0</b><span>Faltan</span></div>
+    </div>
+    <div class="glass" style="--i:1">
+      <h2>Participantes</h2>
+      <p class="sub" id="listaSub"></p>
+      <div class="field"><svg class="ic"><use href="#i-search"/></svg><input id="buscar" type="search" placeholder="Buscar por nombre"></div>
+      <div style="height:14px"></div>
+      <div class="grid" id="gridPersonas"></div>
+    </div>
+  </section>
+
+  <section id="sorteo">
+    <div class="glass" style="--i:0;text-align:center">
+      <h2>Sorteo</h2>
+      <p class="sub" id="sorteoSub"></p>
+      <div class="progress"><div id="barra"></div></div>
+      <div class="wheel-box"><i class="pointer"></i><canvas id="wheelMain" width="720" height="720"></canvas><div class="hub"><svg class="ic"><use href="#i-gift"/></svg></div></div>
+      <button class="btn gold" id="btnSorteo" style="display:none"><svg class="ic"><use href="#i-wheel"/></svg>Realizar sorteo</button>
+      <div id="sorteoMsg"></div>
+    </div>
+  </section>
+
+  <section id="admin">
+    <div class="glass" id="adminLogin" style="--i:0">
+      <h2>Acceso de administrador</h2>
+      <p class="sub">Solo para quien organiza el intercambio.</p>
+      <label for="adminPass">Contraseña</label>
+      <div class="field"><svg class="ic"><use href="#i-lock"/></svg><input id="adminPass" type="password" placeholder="Contraseña"></div>
+      <button class="btn" id="btnAdmin"><svg class="ic"><use href="#i-out"/></svg>Entrar</button>
+      <div id="adminMsg"></div>
+    </div>
+    <div id="adminPanel" style="display:none">
+      <div class="glass" style="--i:0">
+        <h2>Configuración</h2>
+        <div class="grid2">
+          <div><label for="cfgMin">Mínimo de participantes</label><input id="cfgMin" type="number" min="3" max="500"></div>
+          <div><label for="cfgAbierto">Registro</label><select id="cfgAbierto"><option value="1">Abierto</option><option value="0">Cerrado</option></select></div>
+          <div><label for="cfgFecha">Fecha del intercambio</label><input id="cfgFecha" type="date"></div>
+          <div><label for="cfgPres">Presupuesto</label><input id="cfgPres" maxlength="20" placeholder="$150"></div>
+          <div><label for="cfgLugar">Lugar</label><input id="cfgLugar" maxlength="40" placeholder="Salón 3B"></div>
+        </div>
+        <button class="btn" id="btnGuardarCfg"><svg class="ic"><use href="#i-check"/></svg>Guardar configuración</button>
+        <div id="cfgMsg"></div>
+      </div>
+      <div class="glass" style="--i:1">
+        <h2>Registrados</h2>
+        <p class="sub" id="adminSub"></p>
+        <div class="row" style="margin-bottom:14px">
+          <button class="btn sm ghost" id="btnVerAsig"><svg class="ic"><use href="#i-eye"/></svg>Ver asignaciones</button>
+          <button class="btn sm ghost" id="btnCsv"><svg class="ic"><use href="#i-download"/></svg>Exportar CSV</button>
+          <button class="btn sm gold" id="btnAdminSorteo"><svg class="ic"><use href="#i-wheel"/></svg>Sortear</button>
+          <button class="btn sm ghost" id="btnReset"><svg class="ic"><use href="#i-refresh"/></svg>Reiniciar</button>
+        </div>
+        <div class="table-wrap"><table><thead><tr><th>#</th><th>Nombre</th><th>Le regala a</th><th></th></tr></thead><tbody id="adminRows"></tbody></table></div>
+        <div id="adminEmpty" class="empty" style="display:none">Aún no hay registros.</div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="ov" id="modal"><div class="glass mcard" id="mbody"></div></div>
+<div id="toast"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, doc, setDoc, getDoc, updateDoc, deleteDoc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyD0CQQHAEueHkKj99WhBb0p603xjWgZMpQ",
+  authDomain: "tareascetis69.firebaseapp.com",
+  projectId: "tareascetis69",
+  storageBucket: "tareascetis69.firebasestorage.app",
+  messagingSenderId: "335813918134",
+  appId: "1:335813918134:web:ca414522aea6e84aac1517",
+  measurementId: "G-DPLSF7QV3H"
+};
+const ADMIN_PASS = "cetis69admin";
+const db = getFirestore(initializeApp(firebaseConfig));
+const colPart = collection(db, "intercambio_participantes");
+const refCfg = doc(db, "intercambio_config", "estado");
+const refSorteo = doc(db, "intercambio_config", "sorteo");
+const DEF = { minimo: 4, registroAbierto: true, sorteado: false, fecha: "", lugar: "", presupuesto: "" };
+
+let participantes = [], config = { ...DEF }, sorteo = null;
+let adminOn = false, verAsig = false, usuarioId = null, girando = false;
+const vistos = new Set();
+
+const $ = (id) => document.getElementById(id);
+const ic = (n) => `<svg class="ic"><use href="#i-${n}"/></svg>`;
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const slug = (s) => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+const hash = async (s) => [...new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode("cetis69|" + s)))].map((b) => b.toString(16).padStart(2, "0")).join("");
+const porId = (id) => participantes.find((p) => p.id === id);
+const nombreDe = (id) => (porId(id) ? porId(id).nombre : "—");
+const iniciales = (n) => n.split(/\s+/).filter(Boolean).slice(0, 2).map((x) => x[0].toUpperCase()).join("");
+
+function toast(t, icon = "star") {
+  const el = $("toast");
+  el.innerHTML = ic(icon) + `<span>${esc(t)}</span>`;
+  el.classList.add("show");
+  clearTimeout(toast.t);
+  toast.t = setTimeout(() => el.classList.remove("show"), 3400);
+}
+function msg(id, texto, tipo) {
+  $(id).innerHTML = texto ? `<div class="msg ${tipo || ""}">${ic(tipo === "good" ? "check" : tipo === "err" ? "alert" : "star")}<span>${esc(texto)}</span></div>` : "";
+}
+function openM(html) { $("mbody").onclick = null; $("mbody").innerHTML = html; $("modal").classList.add("show"); }
+function closeM() { $("modal").classList.remove("show"); }
+const ask = (titulo, texto, ok = "Continuar") => new Promise((res) => {
+  openM(`<h3>${esc(titulo)}</h3><p class="sub">${esc(texto)}</p><div class="row"><button class="btn ghost" data-r="0">Cancelar</button><button class="btn" data-r="1">${esc(ok)}</button></div>`);
+  $("mbody").onclick = (e) => { const b = e.target.closest("[data-r]"); if (b) { closeM(); res(b.dataset.r === "1"); } };
+});
+
+/* Nieve suave */
+const sc = $("snow"), sx = sc.getContext("2d");
+const ajustar = () => { sc.width = innerWidth; sc.height = innerHeight; };
+ajustar(); addEventListener("resize", ajustar);
+if (!matchMedia("(prefers-reduced-motion:reduce)").matches) {
+  const fl = Array.from({ length: 45 }, () => ({ x: Math.random() * innerWidth, y: Math.random() * innerHeight, r: 1 + Math.random() * 2, v: .25 + Math.random() * .6, d: Math.random() * 6 }));
+  (function a() {
+    sx.clearRect(0, 0, sc.width, sc.height);
+    sx.fillStyle = "rgba(255,255,255,.5)";
+    fl.forEach((f) => { f.y += f.v; f.d += .01; f.x += Math.sin(f.d) * .4; if (f.y > sc.height) { f.y = -5; f.x = Math.random() * sc.width; } sx.beginPath(); sx.arc(f.x, f.y, f.r, 0, 7); sx.fill(); });
+    requestAnimationFrame(a);
+  })();
+}
+
+/* Ruleta */
+const PAL = ["#14463a", "#8c2f39", "#1d5a4a", "#a8873f", "#0f3a30", "#6e2430"];
+function dibujarRueda(canvas, nombres, rot) {
+  const ctx = canvas.getContext("2d"), W = canvas.width, R = W / 2, n = nombres.length;
+  ctx.clearRect(0, 0, W, W);
+  if (!n) {
+    ctx.fillStyle = "rgba(255,255,255,.06)"; ctx.beginPath(); ctx.arc(R, R, R - 8, 0, 7); ctx.fill();
+    ctx.strokeStyle = "#d8b46a"; ctx.lineWidth = 4; ctx.stroke();
+    ctx.fillStyle = "#a9b8ac"; ctx.font = "30px system-ui"; ctx.textAlign = "center"; ctx.fillText("Esperando participantes", R, R + 10);
+    return;
+  }
+  const seg = (Math.PI * 2) / n;
+  for (let i = 0; i < n; i++) {
+    const a0 = rot + i * seg - Math.PI / 2;
+    ctx.beginPath(); ctx.moveTo(R, R); ctx.arc(R, R, R - 8, a0, a0 + seg); ctx.closePath();
+    ctx.fillStyle = PAL[i % PAL.length]; ctx.fill();
+    ctx.strokeStyle = "rgba(243,234,215,.35)"; ctx.lineWidth = 2; ctx.stroke();
+    ctx.save(); ctx.translate(R, R); ctx.rotate(a0 + seg / 2);
+    ctx.textAlign = "right"; ctx.fillStyle = "#f3ead7";
+    const fs = Math.max(13, Math.min(30, 500 / n));
+    ctx.font = `600 ${fs}px system-ui`;
+    let t = nombres[i]; const mx = n > 24 ? 12 : 18;
+    if (t.length > mx) t = t.slice(0, mx - 1) + "…";
+    ctx.fillText(t, R - 36, fs / 3); ctx.restore();
+  }
+  ctx.beginPath(); ctx.arc(R, R, R - 6, 0, 7); ctx.strokeStyle = "#d8b46a"; ctx.lineWidth = 8; ctx.stroke();
+}
+function girarHasta(canvas, nombres, indice, dur) {
+  return new Promise((res) => {
+    const seg = (Math.PI * 2) / nombres.length, dosPi = Math.PI * 2;
+    const total = ((-(indice + .5) * seg) % dosPi + dosPi) % dosPi + dosPi * (5 + Math.floor(Math.random() * 3));
+    const t0 = performance.now();
+    const paso = (ahora) => {
+      const t = Math.min((ahora - t0) / dur, 1);
+      dibujarRueda(canvas, nombres, total * (1 - Math.pow(1 - t, 4)));
+      t < 1 ? requestAnimationFrame(paso) : res();
+    };
+    requestAnimationFrame(paso);
+  });
+}
+async function mostrarRuleta(nombres, indice, titulo, sub, htmlResultado) {
+  if (girando) return;
+  girando = true;
+  openM(`<h3>${esc(titulo)}</h3><p class="sub">${esc(sub)}</p><div class="wheel-box"><i class="pointer"></i><canvas id="wv" width="720" height="720"></canvas><div class="hub">${ic("gift")}</div></div><div id="ovRes"></div>`);
+  const c = $("wv");
+  dibujarRueda(c, nombres, 0);
+  await girarHasta(c, nombres, indice, 6500);
+  $("ovRes").innerHTML = htmlResultado() + `<button class="btn ghost" data-r="x">Cerrar</button>`;
+  $("mbody").onclick = (e) => { if (e.target.closest("[data-r]")) closeM(); };
+  girando = false;
+}
+
+/* Sorteo: cadena aleatoria, nadie se queda sin pareja ni se toca a sí mismo */
+function generarAsignaciones(lista) {
+  const ids = lista.map((p) => p.id);
+  for (let i = ids.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [ids[i], ids[j]] = [ids[j], ids[i]]; }
+  const mapa = {};
+  ids.forEach((id, i) => (mapa[id] = ids[(i + 1) % ids.length]));
+  return mapa;
+}
+
+/* Renderizado */
+function renderChips() {
+  const n = participantes.length;
+  let estado;
+  if (config.sorteado) estado = ["done", "gift", "Sorteo realizado"];
+  else if (!config.registroAbierto) estado = ["warn", "lock", `Registro cerrado, ${n} inscritos`];
+  else if (n >= config.minimo) estado = ["ok", "check", `Listos para sortear, ${n} inscritos`];
+  else estado = ["warn", "users", `Faltan ${config.minimo - n} para sortear`];
+  let h = `<span class="chip ${estado[0]}">${ic(estado[1])}${esc(estado[2])}</span>`;
+  if (config.fecha) h += `<span class="chip">${ic("cal")}${esc(new Date(config.fecha + "T12:00").toLocaleDateString("es-MX", { day: "numeric", month: "long" }))}</span>`;
+  if (config.presupuesto) h += `<span class="chip">${ic("coin")}${esc(config.presupuesto)}</span>`;
+  if (config.lugar) h += `<span class="chip">${ic("pin")}${esc(config.lugar)}</span>`;
+  $("chips").innerHTML = h;
+}
+function renderLista() {
+  const q = $("buscar").value.trim().toLowerCase();
+  const f = participantes.filter((p) => p.nombre.toLowerCase().includes(q));
+  $("stTotal").textContent = participantes.length;
+  $("stMin").textContent = config.minimo;
+  $("stFalta").textContent = Math.max(0, config.minimo - participantes.length);
+  $("listaSub").textContent = participantes.length ? "Estos compañeros ya están dentro." : "Todavía nadie se registra. Sé la primera persona.";
+  $("gridPersonas").innerHTML = f.length
+    ? f.map((p, i) => `<div class="person" style="--i:${Math.min(i, 20)}"><div class="avatar">${esc(iniciales(p.nombre))}</div><div><b>${esc(p.nombre)}</b><small>Inscrito</small></div></div>`).join("")
+    : `<div class="empty">Sin resultados para esa búsqueda.</div>`;
+}
+function renderSorteo() {
+  const n = participantes.length, btn = $("btnSorteo");
+  $("barra").style.width = Math.min(100, Math.round((n / Math.max(config.minimo, 1)) * 100)) + "%";
+  btn.style.display = adminOn ? "inline-flex" : "none";
+  if (config.sorteado) { $("sorteoSub").textContent = "El sorteo ya se realizó. Entra a Mi intercambio para descubrir a quién le regalas."; btn.disabled = true; }
+  else if (n < config.minimo) { $("sorteoSub").textContent = `Hay ${n} de ${config.minimo} participantes necesarios.`; btn.disabled = true; }
+  else { $("sorteoSub").textContent = adminOn ? "Todo listo. Puedes realizar el sorteo." : "Ya hay suficientes participantes. El administrador realizará el sorteo."; btn.disabled = false; }
+  if (!girando) dibujarRueda($("wheelMain"), participantes.map((p) => p.nombre), 0);
+}
+function renderAdmin() {
+  if (!adminOn) return;
+  $("adminSub").textContent = `${participantes.length} registrados, ${config.sorteado ? "sorteo realizado" : "sorteo pendiente"}`;
+  $("adminEmpty").style.display = participantes.length ? "none" : "block";
+  $("adminRows").innerHTML = participantes.map((p, i) => {
+    const a = sorteo && sorteo.asignaciones && sorteo.asignaciones[p.id];
+    return `<tr><td>${i + 1}</td><td>${esc(p.nombre)}</td><td>${a ? `<span class="${verAsig ? "" : "blur"}">${esc(nombreDe(a))}</span>` : "—"}</td><td><button class="btn sm ghost" data-del="${esc(p.id)}" aria-label="Eliminar">${ic("trash")}</button></td></tr>`;
+  }).join("");
+}
+function llenarConfigAdmin() {
+  $("cfgMin").value = config.minimo; $("cfgAbierto").value = config.registroAbierto ? "1" : "0";
+  $("cfgFecha").value = config.fecha || ""; $("cfgPres").value = config.presupuesto || ""; $("cfgLugar").value = config.lugar || "";
+}
+function resultadoHtml(destino) {
+  const r = porId(destino);
+  return `<div class="reveal"><p class="sub">Te tocó regalarle a</p><div class="big">${esc(r ? r.nombre : "—")}</div>${r && r.gustos ? `<div class="tip">${ic("bulb")}<span>Ideas de regalo: ${esc(r.gustos)}</span></div>` : ""}<div class="tip">${ic("lock")}<span>Es un secreto. No se lo digas a nadie.</span></div></div>`;
+}
+function renderMio() {
+  const panel = $("mioPanel"), yo = usuarioId && porId(usuarioId);
+  if (!yo) { panel.style.display = "none"; $("mioLogin").style.display = "block"; return; }
+  $("mioLogin").style.display = "none"; panel.style.display = "block";
+  const destino = sorteo && sorteo.asignaciones && sorteo.asignaciones[yo.id];
+  let h = `<div class="glass" style="--i:0"><h2>Hola, ${esc(yo.nombre.split(" ")[0])}</h2>`;
+  if (config.sorteado && destino) {
+    h += vistos.has(yo.id) ? resultadoHtml(destino) : `<p class="sub">El sorteo ya se realizó. Gira tu ruleta para descubrir a quién le regalas.</p><button class="btn gold" id="btnRevelar">${ic("wheel")}Girar mi ruleta</button>`;
+  } else h += `<div class="msg">${ic("snow")}<span>Aún no se realiza el sorteo. Mientras tanto, puedes editar tus ideas de regalo.</span></div>`;
+  h += `</div>`;
+  if (!config.sorteado) h += `<div class="glass" style="--i:1"><h3>Mis ideas de regalo</h3><textarea id="edGustos" maxlength="200">${esc(yo.gustos || "")}</textarea><button class="btn" id="btnGuardarPref">${ic("check")}Guardar cambios</button><div id="edMsg"></div></div>`;
+  h += `<button class="btn ghost" id="btnSalir" style="--i:2">${ic("out")}Salir</button>`;
+  panel.innerHTML = h;
+}
+function renderTodo() { renderChips(); renderLista(); renderSorteo(); renderAdmin(); renderMio(); }
+
+onSnapshot(colPart, (snap) => {
+  participantes = snap.docs.map((d) => ({ id: d.id, ...d.data() })).sort((a, b) => (a.creado?.seconds || 0) - (b.creado?.seconds || 0));
+  renderTodo();
+}, () => { $("chips").innerHTML = `<span class="chip warn">${ic("alert")}Sin conexión con la base de datos</span>`; });
+onSnapshot(refCfg, (s) => { config = { ...DEF, ...(s.exists() ? s.data() : {}) }; llenarConfigAdmin(); renderTodo(); });
+onSnapshot(refSorteo, (s) => { sorteo = s.exists() ? s.data() : null; renderTodo(); });
+
+/* Eventos */
+$("tabs").addEventListener("click", (e) => {
+  const b = e.target.closest("button"); if (!b) return;
+  document.querySelectorAll("nav button").forEach((x) => x.classList.toggle("active", x === b));
+  document.querySelectorAll("main section").forEach((s) => s.classList.toggle("active", s.id === b.dataset.tab));
+});
+
+$("btnRegistrar").addEventListener("click", async () => {
+  const nombre = $("regNombre").value.trim().replace(/\s+/g, " "), pin = $("regPin").value, gustos = $("regGustos").value.trim(), id = slug(nombre);
+  if (!config.registroAbierto || config.sorteado) return msg("regMsg", "El registro está cerrado.", "err");
+  if (nombre.length < 3 || !id) return msg("regMsg", "Escribe tu nombre completo.", "err");
+  if (!/^\d{4}$/.test(pin)) return msg("regMsg", "El PIN debe tener exactamente 4 números.", "err");
+  if (!$("regAcepto").checked) return msg("regMsg", "Acepta participar para poder registrarte.", "err");
+  const btn = $("btnRegistrar"); btn.disabled = true;
+  try {
+    const ref = doc(colPart, id);
+    if ((await getDoc(ref)).exists()) msg("regMsg", "Ese nombre ya está registrado. Usa tu nombre completo o entra en Mi intercambio.", "err");
+    else {
+      await setDoc(ref, { nombre, gustos, pin: await hash(pin), acepto: true, creado: serverTimestamp() });
+      msg("regMsg", "Registro listo. Ya estás dentro del intercambio.", "good");
+      toast(`Bienvenido, ${nombre.split(" ")[0]}`, "gift");
+      ["regNombre", "regPin", "regGustos"].forEach((k) => ($(k).value = "")); $("regAcepto").checked = false;
+    }
+  } catch { msg("regMsg", "No se pudo guardar. Revisa tu conexión e inténtalo de nuevo.", "err"); }
+  btn.disabled = false;
+});
+
+$("btnEntrar").addEventListener("click", async () => {
+  const p = porId(slug($("mioNombre").value));
+  if (!p) return msg("mioMsg", "No encontramos ese nombre. Escríbelo como lo registraste.", "err");
+  if (p.pin !== await hash($("mioPin").value)) return msg("mioMsg", "PIN incorrecto.", "err");
+  usuarioId = p.id; msg("mioMsg", ""); $("mioPin").value = ""; renderMio();
+});
+
+$("mioPanel").addEventListener("click", async (e) => {
+  const t = e.target.closest("button"); if (!t) return;
+  if (t.id === "btnSalir") { usuarioId = null; $("mioNombre").value = ""; renderMio(); }
+  if (t.id === "btnGuardarPref") {
+    try { await updateDoc(doc(colPart, usuarioId), { gustos: $("edGustos").value.trim() }); msg("edMsg", "Cambios guardados.", "good"); }
+    catch { msg("edMsg", "No se pudo guardar.", "err"); }
+  }
+  if (t.id === "btnRevelar") {
+    const destino = sorteo.asignaciones[usuarioId], otros = participantes.filter((p) => p.id !== usuarioId);
+    await mostrarRuleta(otros.map((p) => p.nombre), otros.findIndex((p) => p.id === destino), `Suerte, ${porId(usuarioId).nombre.split(" ")[0]}`, "Girando para descubrir a quién le regalas...", () => resultadoHtml(destino));
+    vistos.add(usuarioId); renderMio();
+  }
+});
+
+async function ejecutarSorteo() {
+  if (girando) return;
+  if (config.sorteado) return toast("El sorteo ya se realizó.", "alert");
+  if (participantes.length < config.minimo) return toast("Aún no hay suficientes participantes.", "alert");
+  if (!await ask("¿Realizar el sorteo?", `Se sortearán ${participantes.length} participantes y no habrá marcha atrás.`, "Sortear")) return;
+  try {
+    const fresco = await getDoc(refCfg);
+    if (fresco.exists() && fresco.data().sorteado) return toast("El sorteo ya fue realizado.", "alert");
+    await setDoc(refSorteo, { asignaciones: generarAsignaciones(participantes), fecha: serverTimestamp(), total: participantes.length });
+    await setDoc(refCfg, { ...config, sorteado: true, registroAbierto: false }, { merge: true });
+    const nombres = participantes.map((p) => p.nombre);
+    await mostrarRuleta(nombres, Math.floor(Math.random() * nombres.length), "Sorteando", "El sistema está repartiendo las parejas...", () =>
+      `<div class="reveal"><div class="big">Sorteo completado</div><div class="tip">${ic("lock")}<span>Cada persona entra a Mi intercambio con su nombre y PIN para descubrir a quién le tocó.</span></div></div>`);
+  } catch { toast("Ocurrió un error al realizar el sorteo.", "alert"); }
+}
+$("btnSorteo").addEventListener("click", ejecutarSorteo);
+$("btnAdminSorteo").addEventListener("click", ejecutarSorteo);
+$("buscar").addEventListener("input", renderLista);
+
+function entrarAdmin() {
+  if ($("adminPass").value === ADMIN_PASS) {
+    adminOn = true; $("adminLogin").style.display = "none"; $("adminPanel").style.display = "block"; llenarConfigAdmin(); renderTodo();
+  } else msg("adminMsg", "Contraseña incorrecta.", "err");
+}
+$("btnAdmin").addEventListener("click", entrarAdmin);
+$("adminPass").addEventListener("keydown", (e) => { if (e.key === "Enter") entrarAdmin(); });
+
+$("btnGuardarCfg").addEventListener("click", async () => {
+  try {
+    await setDoc(refCfg, { ...config, minimo: Math.max(3, parseInt($("cfgMin").value, 10) || 3), registroAbierto: $("cfgAbierto").value === "1", fecha: $("cfgFecha").value, presupuesto: $("cfgPres").value.trim(), lugar: $("cfgLugar").value.trim() }, { merge: true });
+    msg("cfgMsg", "Configuración guardada.", "good");
+  } catch { msg("cfgMsg", "No se pudo guardar.", "err"); }
+});
+$("btnVerAsig").addEventListener("click", () => { verAsig = !verAsig; renderAdmin(); });
+$("btnReset").addEventListener("click", async () => {
+  if (!await ask("¿Reiniciar el sorteo?", "Se borrará el sorteo actual y se reabrirá el registro.", "Reiniciar")) return;
+  try { await deleteDoc(refSorteo); await setDoc(refCfg, { ...config, sorteado: false, registroAbierto: true }, { merge: true }); vistos.clear(); toast("Sorteo reiniciado.", "refresh"); }
+  catch { toast("No se pudo reiniciar.", "alert"); }
+});
+$("adminRows").addEventListener("click", async (e) => {
+  const b = e.target.closest("[data-del]"); if (!b) return;
+  if (config.sorteado) return toast("Reinicia el sorteo antes de eliminar participantes.", "alert");
+  const p = porId(b.dataset.del);
+  if (!p || !await ask("¿Eliminar participante?", `Se eliminará a ${p.nombre} del intercambio.`, "Eliminar")) return;
+  try { await deleteDoc(doc(colPart, p.id)); toast("Participante eliminado.", "trash"); } catch { toast("No se pudo eliminar.", "alert"); }
+});
+$("btnCsv").addEventListener("click", () => {
+  const fila = (a) => a.map((v) => `"${String(v).replace(/"/g, '""')}"`).join(",");
+  const l = [fila(["Nombre", "Le regala a", "Ideas de regalo"])];
+  participantes.forEach((p) => l.push(fila([p.nombre, sorteo?.asignaciones?.[p.id] ? nombreDe(sorteo.asignaciones[p.id]) : "", p.gustos || ""])));
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob(["\ufeff" + l.join("\n")], { type: "text/csv;charset=utf-8" }));
+  a.download = "intercambio.csv"; a.click(); URL.revokeObjectURL(a.href);
+  toast("CSV exportado.", "download");
+});
+dibujarRueda($("wheelMain"), [], 0);
+</script>
+</body>
+</html>
